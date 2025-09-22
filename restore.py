@@ -38,8 +38,12 @@ def uprav_soubor(vstup, vystup, retract):
                 if not r3.startswith('('):
                     cislo3, *zbytek3 = r3.split()
                     obsah = " ".join(zbytek3)
-                    if (re.search(r"[X|Y|ZF]", obsah)
-                        and not re.search(r"\bG[0-3]\b", obsah)):
+                    # test na Z > 0
+                    m = re.search(r"Z([-+]?[0-9]*\.?[0-9]+)", obsah)
+                    if m and float(m.group(1)) > 0:
+                        nove_radky.append(f"{cislo3} G0 Z{m.group(1)}")
+                    elif ((re.search(r"[XYZ]", obsah) and re.search(r"F", obsah))
+                    and not re.search(r"\bG[0-3]\b", obsah)):
                         nove_radky.append(f"{cislo3} G1 {obsah}")
                     else:
                         nove_radky.append(r3)
