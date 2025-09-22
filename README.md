@@ -6,3 +6,5 @@ python3 restore.py input.nc output.nc retract_string
 
 For example:
 python3 restore.py input.ngc output.ngc "Z15. F#100"
+
+# Warning: Use at your own risk. Carefully verify the resulting G-code before running.
