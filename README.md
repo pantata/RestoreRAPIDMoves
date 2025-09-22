@@ -1,5 +1,5 @@
-# Restore Rapid Moves (F360 personal)
-Python script for modifying G-code to restore rapid (G0/G1) moves after retracts.
+# Restore Rapid Moves
+Python script for modifying G-code to restore rapid (G0/G1) moves after retracts (F360 personal).
 
 Usage:
 python3 restore.py input.nc output.nc retract_string
