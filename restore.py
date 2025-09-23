@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import sys
 import re
+import os
+import glob
 
 def uprav_soubor(vstup, vystup, retract):
     with open(vstup, "r") as f:
@@ -38,7 +40,6 @@ def uprav_soubor(vstup, vystup, retract):
                 if not r3.startswith('('):
                     cislo3, *zbytek3 = r3.split()
                     obsah = " ".join(zbytek3)
-                    # test na Z > 0
                     m = re.search(r"Z([-+]?[0-9]*\.?[0-9]+)", obsah)
                     if m and float(m.group(1)) > 0:
                         nove_radky.append(f"{cislo3} G0 Z{m.group(1)}")
@@ -75,10 +76,26 @@ def uprav_soubor(vstup, vystup, retract):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: script.py input.nc output.nc 'retract_string'")
+    default_retract = "Z24. F#100"
+
+    if len(sys.argv) == 1:
+        soubory = glob.glob("*.ngc")
+        for s in soubory:
+            vystup = os.path.splitext(s)[0] + "-R.ngc"
+            uprav_soubor(s, vystup, default_retract)
+            print(f"Upraven: {s} -> {vystup}")
+    elif len(sys.argv) == 4:
+        vstup = sys.argv[1]
+        vystup = sys.argv[2]
+        retract = sys.argv[3]
+        uprav_soubor(vstup, vystup, retract)
+    elif len(sys.argv) == 3:
+        vstup = sys.argv[1]
+        vystup = sys.argv[2]
+        uprav_soubor(vstup, vystup, default_retract)
+    else:
+        print("Použití:")
+        print("  Bez parametrů: upraví všechny *.ngc v adresáři (retract = Z24. F#100)")
+        print("  script.py vstup.nc vystup.nc          (retract = Z24. F#100)")
+        print("  script.py vstup.nc vystup.nc 'Zxx. F#yy'  (vlastní retract)")
         sys.exit(1)
-    vstup = sys.argv[1]
-    vystup = sys.argv[2]
-    retract = sys.argv[3]
-    uprav_soubor(vstup, vystup, retract)
