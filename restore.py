@@ -95,7 +95,7 @@ if __name__ == "__main__":
         uprav_soubor(vstup, vystup, default_retract)
     else:
         print("Použití:")
-        print("  Bez parametrů: upraví všechny *.ngc v adresáři (retract = Z24. F#100)")
-        print("  script.py vstup.nc vystup.nc          (retract = Z24. F#100)")
+        print(f"  Bez parametrů: upraví všechny *.ngc v adresáři (retract = {default_retract})")
+        print(f"  script.py vstup.nc vystup.nc          (retract = {default_retract})")
         print("  script.py vstup.nc vystup.nc 'Zxx. F#yy'  (vlastní retract)")
         sys.exit(1)
